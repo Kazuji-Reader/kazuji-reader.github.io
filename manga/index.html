@@ -21,15 +21,15 @@
     <h1 id="title">Abrir este mangá</h1>
     <p id="source"></p>
     <p>Se o app não abrir automaticamente, use o botão abaixo.</p>
-    <a class="button" id="open" href="https://github.com/Kazuji-Reader/Kazuji/releases/latest">Abrir no Kazuji</a>
-    <a class="button secondary" href="https://github.com/Kazuji-Reader/Kazuji/releases/latest">Baixar o Kazuji</a>
+    <a class="button" id="open" href="https://github.com/joaovpimenta/Kazuji/releases/latest">Abrir no Kazuji</a>
+    <a class="button secondary" href="https://github.com/joaovpimenta/Kazuji/releases/latest">Baixar o Kazuji</a>
   </main>
   <script>
     const params = new URLSearchParams(window.location.search);
     const title = params.get("name");
     const source = params.get("source");
     if (title) document.getElementById("title").textContent = title;
-    if (source) document.getElementById("source").textContent = `Fonte: ${source}`;
+    if (source) document.getElementById("source").textContent = "Fonte: " + source;
     const appLink = new URL("kazuji://manga");
     appLink.search = params.toString();
     document.getElementById("open").href = appLink.toString();
