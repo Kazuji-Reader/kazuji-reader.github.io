@@ -3,22 +3,278 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15151b">
-  <title>Kazuji Reader</title>
+  <meta name="theme-color" content="#111017">
+  <meta name="description" content="Conheça o Kazuji Reader, um leitor de mangás gratuito e de código aberto para Android.">
+  <title>Kazuji Reader — mangás no seu ritmo</title>
   <style>
-    :root { color-scheme: dark; font: 16px/1.6 system-ui, sans-serif; background: #15151b; color: #f6f3fa; }
-    body { min-height: 100vh; margin: 0; display: grid; place-items: center; }
-    main { width: min(34rem, calc(100% - 3rem)); padding: 2rem 0; }
-    h1 { margin: 0 0 .5rem; font-size: clamp(2rem, 8vw, 3.25rem); }
-    p { color: #cbc6d2; }
-    .button { display: inline-block; margin-top: 1rem; padding: .7rem 1rem; border-radius: .75rem; background: #c8a5ff; color: #20172b; font-weight: 650; text-decoration: none; }
+    :root {
+      color-scheme: dark;
+      --bg: #111017;
+      --panel: #191722;
+      --panel-soft: #211e2b;
+      --text: #f8f5fc;
+      --muted: #b9b3c4;
+      --purple: #c9a7ff;
+      --purple-deep: #8f63d8;
+      --line: rgba(238, 230, 255, .12);
+      --max: 1160px;
+      font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body { margin: 0; min-width: 320px; background: var(--bg); color: var(--text); }
+    body::before {
+      position: fixed; z-index: -1; inset: 0; content: ""; pointer-events: none;
+      background: radial-gradient(ellipse at 78% 8%, rgba(123, 78, 185, .16), transparent 34%),
+                  radial-gradient(ellipse at 12% 58%, rgba(72, 46, 105, .12), transparent 30%);
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #f0dcff; outline-offset: 4px; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .header { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid rgba(255,255,255,.07); background: rgba(17,16,23,.84); backdrop-filter: blur(18px); }
+    .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--text); text-decoration: none; font-size: 1.05rem; font-weight: 750; letter-spacing: -.03em; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; color: #21172d; background: linear-gradient(145deg, #e0caff, #a777ed); font-weight: 900; box-shadow: 0 5px 24px rgba(160,112,228,.24); }
+    .nav { display: flex; align-items: center; gap: 30px; }
+    .nav a { color: var(--muted); text-decoration: none; font-size: .92rem; transition: color .2s ease; }
+    .nav a:hover { color: var(--text); }
+    .nav .nav-download { color: #241b30; background: var(--purple); padding: 10px 16px; border-radius: 999px; font-weight: 750; }
+    .menu-button { display: none; border: 1px solid var(--line); color: var(--text); background: var(--panel); border-radius: 10px; padding: 8px 11px; font: inherit; }
+    .hero { padding: 92px 0 102px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.03fr .97fr; align-items: center; gap: 54px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #ddc7ff; background: rgba(176,135,234,.1); border: 1px solid rgba(201,167,255,.22); border-radius: 999px; padding: 7px 13px; font-size: .79rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+    .eyebrow::before { width: 7px; height: 7px; content: ""; border-radius: 50%; background: #c9a7ff; box-shadow: 0 0 12px #c9a7ff; }
+    h1 { max-width: 650px; margin: 22px 0 20px; font-size: clamp(3rem, 6.2vw, 5.25rem); line-height: .99; letter-spacing: -.075em; }
+    h1 span { color: var(--purple); }
+    .hero-copy { max-width: 550px; color: var(--muted); font-size: 1.12rem; line-height: 1.8; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; margin-top: 31px; }
+    .button { min-height: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 19px; border: 1px solid transparent; border-radius: 13px; text-decoration: none; font-weight: 760; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: #21172d; background: var(--purple); box-shadow: 0 12px 34px rgba(164,112,229,.2); }
+    .button-primary:hover { background: #d7c0ff; }
+    .button-secondary { color: var(--text); background: rgba(255,255,255,.035); border-color: var(--line); }
+    .button-secondary:hover { background: rgba(255,255,255,.08); }
+    .button-arrow { font-size: 1.15rem; line-height: 1; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 22px; color: #918a9c; font-size: .88rem; }
+    .hero-meta span::before { content: "•"; color: var(--purple); margin-right: 8px; }
+    .art { min-height: 430px; display: grid; place-items: center; position: relative; isolation: isolate; }
+    .art::before { position: absolute; z-index: -1; width: 340px; height: 340px; content: ""; border-radius: 50%; background: rgba(143,99,216,.18); filter: blur(75px); }
+    .orbit { position: absolute; width: 410px; height: 410px; border: 1px solid rgba(206,176,255,.14); border-radius: 50%; transform: rotate(-21deg) scaleY(.72); }
+    .orbit::after { position: absolute; top: 15%; right: 9%; width: 9px; height: 9px; content: ""; border-radius: 50%; background: #eadbff; box-shadow: 0 0 20px #c9a7ff; }
+    .device { position: relative; width: min(300px, 76vw); padding: 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 34px; background: linear-gradient(145deg, #393343, #17151d 28%); box-shadow: 0 38px 90px rgba(0,0,0,.52), 0 0 0 7px rgba(255,255,255,.025); transform: rotate(4deg); }
+    .device-screen { min-height: 386px; overflow: hidden; border-radius: 25px; padding: 20px 17px 16px; background: linear-gradient(165deg, #201d29, #121117 72%); }
+    .screen-top { display: flex; justify-content: space-between; align-items: center; color: #a9a2b4; font-size: .76rem; }
+    .screen-brand { color: #f7f1ff; font-size: .97rem; font-weight: 800; letter-spacing: -.04em; }
+    .screen-title { margin: 28px 0 3px; font-size: 1.42rem; font-weight: 780; letter-spacing: -.05em; }
+    .screen-subtitle { color: #a9a2b4; font-size: .76rem; }
+    .screen-search { margin: 19px 0 15px; padding: 10px 12px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; color: #827b8e; background: rgba(255,255,255,.035); font-size: .72rem; }
+    .screen-label { margin-bottom: 10px; color: #c5bdcf; font-size: .7rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+    .book-row { display: flex; align-items: center; gap: 11px; margin-bottom: 10px; padding: 8px; border: 1px solid rgba(255,255,255,.065); border-radius: 13px; background: rgba(255,255,255,.035); }
+    .cover { width: 42px; height: 56px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 7px; color: rgba(255,255,255,.9); font-size: .62rem; font-weight: 850; letter-spacing: .08em; }
+    .cover-one { background: linear-gradient(145deg, #efad79, #a14760 60%, #402a60); }
+    .cover-two { background: linear-gradient(145deg, #81b9cb, #4f5e94 55%, #24223b); }
+    .cover-three { background: linear-gradient(145deg, #d7b7ec, #8265a5 58%, #393349); }
+    .book-copy { min-width: 0; display: grid; gap: 3px; }
+    .book-copy strong { overflow: hidden; color: #eee9f4; font-size: .75rem; text-overflow: ellipsis; white-space: nowrap; }
+    .book-copy small { color: #938c9e; font-size: .66rem; }
+    .book-progress { height: 3px; overflow: hidden; margin-top: 4px; border-radius: 3px; background: rgba(255,255,255,.1); }
+    .book-progress span { height: 100%; display: block; border-radius: inherit; background: #bb92f3; }
+    .floating-note { position: absolute; right: -2%; bottom: 42px; display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(31,28,40,.92); box-shadow: 0 16px 40px rgba(0,0,0,.28); transform: rotate(-4deg); }
+    .note-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 10px; color: #281d37; background: var(--purple); font-weight: 900; }
+    .floating-note strong { display: block; font-size: .75rem; }
+    .floating-note small { display: block; color: var(--muted); font-size: .66rem; }
+    .art-caption { position: absolute; bottom: 0; color: #777181; font-size: .68rem; letter-spacing: .04em; }
+    .section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,.065); }
+    .section-heading { max-width: 680px; margin: 0 auto 42px; text-align: center; }
+    .section-kicker { color: var(--purple); font-size: .78rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    h2 { margin: 12px 0 12px; font-size: clamp(2rem, 4vw, 3.15rem); line-height: 1.08; letter-spacing: -.06em; }
+    .section-heading p { margin: 0; color: var(--muted); font-size: 1rem; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature { min-height: 220px; padding: 26px; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018)); }
+    .feature-icon { width: 43px; height: 43px; display: grid; place-items: center; border: 1px solid rgba(201,167,255,.23); border-radius: 13px; color: var(--purple); background: rgba(201,167,255,.09); font-size: 1.25rem; }
+    .feature h3 { margin: 20px 0 7px; font-size: 1.08rem; letter-spacing: -.02em; }
+    .feature p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.7; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: step; }
+    .step { position: relative; padding-top: 22px; border-top: 1px solid rgba(201,167,255,.28); counter-increment: step; }
+    .step::before { content: "0" counter(step); color: var(--purple); font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
+    .step h3 { margin: 12px 0 6px; font-size: 1.06rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .91rem; }
+    .about-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 36px; padding: 34px 38px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(115deg, rgba(144,101,207,.14), rgba(255,255,255,.025) 62%); }
+    .about-card h2 { margin-top: 0; font-size: clamp(1.8rem, 3vw, 2.5rem); }
+    .about-card p { max-width: 700px; margin: 0; color: var(--muted); }
+    .open-source-mark { width: 86px; height: 86px; display: grid; place-items: center; border: 1px solid rgba(201,167,255,.26); border-radius: 24px; color: var(--purple); background: rgba(201,167,255,.08); font-size: 2rem; }
+    .download { padding: 78px 0 90px; }
+    .download-card { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 44px 48px; border: 1px solid rgba(201,167,255,.28); border-radius: 27px; background: linear-gradient(115deg, #302440, #211d2a 60%, #1a1721); }
+    .download-card::after { position: absolute; top: -150px; right: 13%; width: 290px; height: 290px; content: ""; border-radius: 50%; background: rgba(201,167,255,.12); filter: blur(50px); pointer-events: none; }
+    .download-copy, .download-action { position: relative; z-index: 1; }
+    .download-copy { max-width: 650px; }
+    .download-copy h2 { margin: 0 0 12px; }
+    .download-copy p { margin: 0; color: #c3bbce; }
+    .download-action { flex: 0 0 auto; }
+    .download-note { margin-top: 12px; color: #a9a1b4; font-size: .76rem; text-align: center; }
+    .footer { padding: 24px 0 34px; border-top: 1px solid rgba(255,255,255,.07); color: #8f8999; font-size: .83rem; }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer a { color: #bcb5c7; text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+    @media (max-width: 850px) {
+      .hero { padding: 72px 0 82px; }
+      .hero-grid { grid-template-columns: 1fr .85fr; gap: 20px; }
+      .art { min-height: 380px; }
+      .device { transform: scale(.9) rotate(4deg); }
+      .floating-note { right: -5%; }
+      .features { gap: 12px; }
+      .feature { padding: 21px; }
+    }
+    @media (max-width: 680px) {
+      .wrap { width: min(var(--max), calc(100% - 36px)); }
+      .header-inner { min-height: 68px; }
+      .menu-button { display: inline-flex; align-items: center; gap: 8px; }
+      .nav { position: absolute; top: 67px; left: 0; right: 0; display: none; align-items: stretch; gap: 0; padding: 8px 18px 17px; border-bottom: 1px solid var(--line); background: rgba(17,16,23,.97); }
+      .nav.is-open { display: flex; flex-direction: column; }
+      .nav a { padding: 12px 8px; }
+      .nav .nav-download { margin-top: 5px; text-align: center; }
+      .hero { padding: 58px 0 63px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 27px; }
+      h1 { max-width: 520px; font-size: clamp(3rem, 13vw, 4.4rem); }
+      .hero-copy { font-size: 1rem; }
+      .art { min-height: 410px; }
+      .device { transform: scale(.92) rotate(3deg); }
+      .floating-note { right: 0; bottom: 34px; }
+      .section { padding: 68px 0; }
+      .section-heading { margin-bottom: 30px; text-align: left; }
+      .features, .steps { grid-template-columns: 1fr; }
+      .feature { min-height: 0; }
+      .steps { gap: 23px; }
+      .about-card { grid-template-columns: 1fr; gap: 22px; padding: 27px; }
+      .open-source-mark { width: 58px; height: 58px; border-radius: 17px; font-size: 1.5rem; }
+      .download { padding: 57px 0 65px; }
+      .download-card { align-items: flex-start; flex-direction: column; padding: 29px 25px; }
+      .download-action { width: 100%; }
+      .download-action .button { width: 100%; }
+      .download-note { text-align: left; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Kazuji Reader</h1>
-    <p>Leia e acompanhe seus mangás no Kazuji.</p>
-    <a class="button" href="https://github.com/Kazuji-Reader/Kazuji/releases/latest">Baixar o Kazuji</a>
+  <header class="header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#inicio" aria-label="Kazuji Reader, início"><span class="brand-mark">K</span><span>Kazuji Reader</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">☰ <span>Menu</span></button>
+      <nav class="nav" id="site-nav" aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#comecar">Como começar</a>
+        <a href="#sobre">Sobre o projeto</a>
+        <a class="nav-download" href="#download">Baixar grátis <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Leitor de mangás para Android</div>
+          <h1>Histórias para ler <span>no seu ritmo.</span></h1>
+          <p class="hero-copy">Descubra mangás nas fontes disponíveis, organize sua biblioteca e aproveite uma experiência de leitura feita para acompanhar você capítulo após capítulo.</p>
+          <div class="actions">
+            <a class="button button-primary" href="https://github.com/joaovpimenta/Kazuji/releases/latest">Baixar o Kazuji <span class="button-arrow" aria-hidden="true">↓</span></a>
+            <a class="button button-secondary" href="#recursos">Conhecer o app <span class="button-arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="hero-meta"><span>Gratuito</span><span>Código aberto</span><span>Android 6.0+</span></div>
+        </div>
+        <div class="art" aria-label="Ilustração conceitual de uma biblioteca de mangás no Kazuji">
+          <div class="orbit"></div>
+          <div class="device">
+            <div class="device-screen">
+              <div class="screen-top"><span class="screen-brand">kazuji</span><span>•••</span></div>
+              <div class="screen-title">Sua biblioteca</div>
+              <div class="screen-subtitle">Suas leituras, organizadas em um só lugar</div>
+              <div class="screen-search">⌕ &nbsp; Buscar mangás</div>
+              <div class="screen-label">Continue de onde parou</div>
+              <div class="book-row"><div class="cover cover-one">01</div><div class="book-copy"><strong>Aventura</strong><small>Continue lendo</small><div class="book-progress"><span style="width:72%"></span></div></div></div>
+              <div class="book-row"><div class="cover cover-two">02</div><div class="book-copy"><strong>Novos capítulos</strong><small>Na sua biblioteca</small><div class="book-progress"><span style="width:44%"></span></div></div></div>
+              <div class="book-row"><div class="cover cover-three">03</div><div class="book-copy"><strong>Próxima leitura</strong><small>Explore suas fontes</small><div class="book-progress"><span style="width:20%"></span></div></div></div>
+            </div>
+          </div>
+          <div class="floating-note"><span class="note-icon">✓</span><span><strong>Seu próximo capítulo</strong><small>está sempre por perto</small></span></div>
+          <div class="art-caption">Ilustração conceitual</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="recursos">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="section-kicker">Feito para leitores</div>
+          <h2>Uma biblioteca que acompanha você.</h2>
+          <p>Encontre seu jeito de descobrir histórias, organizar leituras e voltar ao capítulo certo.</p>
+        </div>
+        <div class="features">
+          <article class="feature"><div class="feature-icon" aria-hidden="true">⌕</div><h3>Explore fontes</h3><p>Acesse os catálogos compatíveis disponíveis no app e encontre sua próxima leitura.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">▤</div><h3>Organize sua biblioteca</h3><p>Guarde seus mangás, acompanhe o que está lendo e mantenha suas leituras à mão.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">↓</div><h3>Leia offline</h3><p>Baixe capítulos no dispositivo para continuar lendo quando estiver sem conexão.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comecar">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="section-kicker">Comece em poucos passos</div>
+          <h2>Da instalação à leitura.</h2>
+          <p>Baixe o app, escolha uma fonte compatível e monte sua biblioteca.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><h3>Baixe o Kazuji</h3><p>Encontre a versão mais recente na página de releases do projeto.</p></article>
+          <article class="step"><h3>Explore as fontes</h3><p>Adicione fontes disponíveis para pesquisar e descobrir mangás.</p></article>
+          <article class="step"><h3>Monte sua biblioteca</h3><p>Salve seus títulos e continue a leitura no seu próprio ritmo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sobre">
+      <div class="wrap">
+        <div class="about-card">
+          <div><div class="section-kicker">Projeto de código aberto</div><h2>Um app livre, feito para leitores.</h2><p>O Kazuji Reader é um leitor de mangás gratuito para Android. O código-fonte e o histórico de versões estão disponíveis no GitHub para quem quiser acompanhar o projeto.</p></div>
+          <div class="open-source-mark" aria-hidden="true">⌘</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="download" id="download">
+      <div class="wrap">
+        <div class="download-card">
+          <div class="download-copy"><div class="section-kicker">Sua próxima leitura começa aqui</div><h2>Conheça o Kazuji.</h2><p>Baixe gratuitamente para Android e organize suas leituras em um só lugar.</p></div>
+          <div class="download-action"><a class="button button-primary" href="https://github.com/joaovpimenta/Kazuji/releases/latest">Ver downloads no GitHub <span class="button-arrow" aria-hidden="true">↗</span></a><div class="download-note">Android 6.0 ou superior</div></div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner"><span>© <span id="year">2026</span> Kazuji Reader · Projeto de código aberto</span><div class="footer-links"><a href="https://github.com/Kazuji-Reader">GitHub</a><a href="https://github.com/joaovpimenta/Kazuji">Código-fonte</a></div></div>
+  </footer>
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const siteNav = document.querySelector('#site-nav');
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!isOpen));
+      siteNav.classList.toggle('is-open', !isOpen);
+    });
+    siteNav.addEventListener('click', (event) => {
+      if (event.target.closest('a')) {
+        menuButton.setAttribute('aria-expanded', 'false');
+        siteNav.classList.remove('is-open');
+      }
+    });
+    document.querySelector('#year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
