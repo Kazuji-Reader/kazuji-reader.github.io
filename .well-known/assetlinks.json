@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.kazuji",
+      "sha256_cert_fingerprints": [
+        "CF:85:06:10:81:C3:1B:70:27:53:D7:BB:F2:0C:63:4A:29:C5:C7:58:39:4C:8B:85:2A:93:92:22:34:BD:5E:9C"
+      ]
+    }
+  }
+]
