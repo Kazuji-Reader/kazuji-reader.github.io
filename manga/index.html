@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15151b">
+  <title>Abrir mangá no Kazuji</title>
+  <style>
+    :root { color-scheme: dark; font: 16px/1.6 system-ui, sans-serif; background: #15151b; color: #f6f3fa; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; }
+    main { width: min(34rem, calc(100% - 3rem)); padding: 2rem 0; }
+    h1 { margin: 0 0 .5rem; font-size: clamp(2rem, 8vw, 3rem); }
+    p { color: #cbc6d2; }
+    .button { display: inline-block; margin: 1rem .5rem 0 0; padding: .7rem 1rem; border-radius: .75rem; background: #c8a5ff; color: #20172b; font-weight: 650; text-decoration: none; }
+    .secondary { background: #34313c; color: #f6f3fa; }
+  </style>
+</head>
+<body>
+  <main>
+    <p>Kazuji Reader</p>
+    <h1 id="title">Abrir este mangá</h1>
+    <p id="source"></p>
+    <p>Se o app não abrir automaticamente, use o botão abaixo.</p>
+    <a class="button" id="open" href="https://github.com/Kazuji-Reader/Kazuji/releases/latest">Abrir no Kazuji</a>
+    <a class="button secondary" href="https://github.com/Kazuji-Reader/Kazuji/releases/latest">Baixar o Kazuji</a>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get("name");
+    const source = params.get("source");
+    if (title) document.getElementById("title").textContent = title;
+    if (source) document.getElementById("source").textContent = `Fonte: ${source}`;
+    const appLink = new URL("kazuji://manga");
+    appLink.search = params.toString();
+    document.getElementById("open").href = appLink.toString();
+  </script>
+</body>
+</html>
