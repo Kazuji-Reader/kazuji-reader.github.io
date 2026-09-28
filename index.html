@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111017">
+  <meta name="theme-color" content="#efe7d4">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
   <meta name="description" content="Conheça o Kazuji Reader, um leitor de mangás gratuito e de código aberto para Android.">
   <title>Kazuji Reader — mangás no seu ritmo</title>
   <style>
@@ -160,11 +162,58 @@
       *, *::before, *::after { transition-duration: .01ms !important; }
     }
   </style>
+<style>
+  /* Papel japonês, nanquim e acentos de hanko */
+  :root { color-scheme: light; --bg: #eee5d1; --panel: #f7efdf; --panel-soft: #e4d7bf; --text: #24211c; --muted: #655f53; --purple: #a43c31; --purple-deep: #782d25; --line: rgba(43,36,27,.2); font: 16px/1.65 Georgia, "Noto Serif JP", "Yu Mincho", serif; }
+  body { background-color: var(--bg); background-image: radial-gradient(rgba(71,56,34,.08) .7px, transparent .8px), linear-gradient(105deg, rgba(255,255,255,.17), transparent 44%, rgba(128,92,45,.045)); background-size: 7px 7px, auto; }
+  body::before { opacity: .45; background: repeating-linear-gradient(0deg,transparent 0 7px,rgba(88,66,38,.035) 7px 8px),radial-gradient(ellipse at 75% 10%,rgba(164,60,49,.09),transparent 36%); }
+  a:focus-visible, button:focus-visible { outline-color: #a43c31; }
+  .header { border-bottom: 1px solid var(--line); background: rgba(238,229,209,.93); backdrop-filter: blur(12px); }
+  .brand { color: var(--text); letter-spacing: .01em; }
+  .brand-mark { width: 38px; height: 38px; display: block; object-fit: cover; border: 1px solid rgba(36,33,28,.25); border-radius: 9px; background: #eee5d1; box-shadow: 2px 3px 0 rgba(36,33,28,.16); }
+  .nav a { color: var(--muted); } .nav a:hover, .footer a:hover { color: var(--purple-deep); }
+  .nav .nav-download { color: #fff8ec; background: var(--purple); border-radius: 3px; box-shadow: 3px 3px 0 rgba(65,34,28,.19); }
+  .menu-button { border-radius: 3px; }
+  .eyebrow { color: var(--purple-deep); background: rgba(164,60,49,.06); border: 1px solid rgba(164,60,49,.34); border-radius: 2px; font-family: Georgia,serif; letter-spacing: .12em; }
+  .eyebrow::before { background: var(--purple); box-shadow: none; border-radius: 0; transform: rotate(45deg); }
+  h1,h2,.screen-title,.feature h3,.step h3 { font-family: Georgia,"Noto Serif JP","Yu Mincho",serif; letter-spacing: -.035em; }
+  h1 { line-height: 1.06; } h1 span { color: var(--purple); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px; }
+  .hero-copy,.section-heading p,.feature p,.step p,.about-card p { color: var(--muted); }
+  .button { border-radius: 3px; letter-spacing: .01em; }
+  .button-primary { color: #fff8ec; background: var(--purple); box-shadow: 3px 4px 0 rgba(64,31,26,.22); } .button-primary:hover { background: var(--purple-deep); }
+  .button-secondary { color: var(--text); background: rgba(255,255,255,.2); border-color: var(--line); } .button-secondary:hover { background: rgba(255,255,255,.55); }
+  .hero-meta { color: #746b5d; } .hero-meta span::before { color: var(--purple); }
+  .art::before { width: 340px; height: 350px; border-radius: 50%; background: radial-gradient(ellipse,rgba(164,60,49,.11),rgba(67,57,43,.05) 56%,transparent 72%); filter: none; }
+  .orbit { width: 350px; height: 435px; border: 1px solid rgba(36,33,28,.25); border-radius: 48%; transform: rotate(15deg) scaleY(.82); }
+  .orbit::after { background: var(--purple); box-shadow: none; border-radius: 1px; transform: rotate(45deg); }
+  .device { padding: 8px; border: 2px solid #26221c; border-radius: 5px; background: #26221c; box-shadow: 7px 8px 0 rgba(49,39,27,.2); transform: rotate(2deg); }
+  .device-screen { color: var(--text); border-radius: 2px; background-color: #f5eddd; background-image: radial-gradient(rgba(58,46,29,.055) .6px,transparent .8px); background-size: 5px 5px; }
+  .screen-top { color: #756d60; } .screen-brand { color: var(--text); letter-spacing: .1em; } .screen-brand::after { content: " 漫画"; color: var(--purple); font-size: .72em; }
+  .screen-title { color: var(--text); } .screen-subtitle,.book-copy small { color: #746b5d; }
+  .screen-search { border: 1px solid rgba(36,33,28,.17); border-radius: 2px; color: #756d60; background: rgba(255,255,255,.4); } .screen-label { color: #494238; }
+  .book-row { border: 1px solid rgba(36,33,28,.16); border-radius: 2px; background: rgba(255,255,255,.42); }
+  .cover { border-radius: 1px; color: #f8efdf; background-image: radial-gradient(rgba(248,239,223,.55) .7px,transparent .9px),linear-gradient(145deg,#34312b,#777063); background-size: 4px 4px,auto; }
+  .cover-two { background-image: radial-gradient(rgba(248,239,223,.55) .7px,transparent .9px),linear-gradient(145deg,#777063,#292722); } .cover-three { background-image: radial-gradient(rgba(248,239,223,.55) .7px,transparent .9px),linear-gradient(145deg,#9a8c73,#51493d); }
+  .book-copy strong { color: #28241e; } .book-progress { background: rgba(36,33,28,.12); } .book-progress span { background: var(--purple); }
+  .floating-note { border: 1px solid rgba(36,33,28,.2); border-radius: 3px; background: #f7efdf; box-shadow: 4px 5px 0 rgba(49,39,27,.16); transform: rotate(-3deg); }
+  .note-icon { border-radius: 2px; color: #fff8ec; background: var(--purple); } .floating-note small,.art-caption { color: #746b5d; }
+  .section { border-top-color: rgba(43,36,27,.17); } .section-kicker { color: var(--purple-deep); letter-spacing: .12em; }
+  .feature { border: 1px solid rgba(43,36,27,.2); border-radius: 3px; background: rgba(248,241,226,.82); box-shadow: 4px 5px 0 rgba(49,39,27,.07); }
+  .feature-icon { border-color: rgba(164,60,49,.3); border-radius: 2px; color: var(--purple); background: rgba(164,60,49,.06); } .step { border-top: 2px solid rgba(164,60,49,.42); } .step::before { color: var(--purple); }
+  .about-card { border: 1px solid rgba(43,36,27,.22); border-radius: 3px; background: linear-gradient(115deg,rgba(164,60,49,.055),rgba(255,255,255,.34) 62%); box-shadow: 5px 6px 0 rgba(49,39,27,.07); }
+  .open-source-mark { border: 1px solid rgba(164,60,49,.3); border-radius: 3px; color: var(--purple); background: rgba(164,60,49,.06); }
+  .download-card { border: 1px solid #27221b; border-radius: 3px; background: #28241e; box-shadow: 6px 7px 0 rgba(49,39,27,.17); }
+  .download-card::after { background: radial-gradient(circle,rgba(164,60,49,.34),transparent 68%); filter: none; }
+  .download-card .section-kicker { color: #d98c7d; } .download-copy h2 { color: #f5eddd; } .download-copy p { color: #d8cfbd; } .download-card .button-primary { color: #fff8ec; background: var(--purple); } .download-note { color: #d8cfbd; }
+  .footer { border-top-color: rgba(43,36,27,.18); color: #746b5d; } .footer a { color: #494238; }
+  @media (max-width: 680px) { .nav { background: rgba(238,229,209,.98); border-bottom-color: var(--line); } .download-card { box-shadow: 4px 5px 0 rgba(49,39,27,.16); } }
+</style>
+
 </head>
 <body>
   <header class="header">
     <div class="wrap header-inner">
-      <a class="brand" href="#inicio" aria-label="Kazuji Reader, início"><span class="brand-mark">K</span><span>Kazuji Reader</span></a>
+      <a class="brand" href="#inicio" aria-label="Kazuji Reader, início"><img class="brand-mark" src="/favicon.svg" alt=""><span>Kazuji Reader</span></a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">☰ <span>Menu</span></button>
       <nav class="nav" id="site-nav" aria-label="Navegação principal">
         <a href="#recursos">Recursos</a>
