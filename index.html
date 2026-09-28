@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#efe7d4">
+  <meta name="theme-color" content="#171411">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
   <meta name="description" content="Conheça o Kazuji Reader, um leitor de mangás gratuito e de código aberto para Android.">
@@ -207,6 +207,36 @@
   .download-card .section-kicker { color: #d98c7d; } .download-copy h2 { color: #f5eddd; } .download-copy p { color: #d8cfbd; } .download-card .button-primary { color: #fff8ec; background: var(--purple); } .download-note { color: #d8cfbd; }
   .footer { border-top-color: rgba(43,36,27,.18); color: #746b5d; } .footer a { color: #494238; }
   @media (max-width: 680px) { .nav { background: rgba(238,229,209,.98); border-bottom-color: var(--line); } .download-card { box-shadow: 4px 5px 0 rgba(49,39,27,.16); } }
+  /* Tema noturno: nanquim, papel escuro e carmim */
+  :root { color-scheme: dark; --bg: #171411; --panel: #211d19; --panel-soft: #2b2520; --text: #eee5d6; --muted: #bdb3a4; --purple: #c67463; --purple-deep: #e09a89; --line: rgba(238,229,214,.18); }
+  body { background-color: var(--bg); background-image: radial-gradient(rgba(238,220,190,.035) .7px, transparent .8px), linear-gradient(110deg,rgba(255,255,255,.018),transparent 48%,rgba(164,60,49,.04)); background-size: 7px 7px,auto; }
+  body::before { opacity: .35; background: repeating-linear-gradient(0deg,transparent 0 7px,rgba(238,220,190,.018) 7px 8px),radial-gradient(ellipse at 75% 10%,rgba(164,60,49,.14),transparent 38%); }
+  .header { border-bottom-color: var(--line); background: rgba(23,20,17,.94); }
+  .brand-mark { border-color: rgba(238,229,214,.22); background: #28221d; }
+  .nav .nav-download { color: #fff4e9; background: #a83f34; }
+  .eyebrow { color: #e3a396; background: rgba(198,116,99,.09); border-color: rgba(198,116,99,.4); }
+  a:focus-visible, button:focus-visible { outline-color: #e5a99b; }
+  .button-primary { color: #fff5e9; background: #a83f34; }
+  .button-primary:hover { background: #8f332b; }
+  .button-secondary { color: var(--text); background: rgba(238,229,214,.035); border-color: var(--line); }
+  .button-secondary:hover { background: rgba(238,229,214,.09); }
+  .hero-meta,.art-caption { color: #b9ad9d; }
+  .art::before { background: radial-gradient(ellipse,rgba(164,60,49,.16),rgba(123,94,67,.07) 56%,transparent 72%); }
+  .section { border-top-color: rgba(238,229,214,.13); }
+  .section-kicker { color: #df9688; }
+  .feature { border-color: rgba(238,229,214,.16); background: rgba(38,32,27,.88); box-shadow: 4px 5px 0 rgba(0,0,0,.2); }
+  .feature-icon { border-color: rgba(198,116,99,.34); color: #e09a89; background: rgba(164,60,49,.11); }
+  .step { border-top-color: rgba(198,116,99,.52); }
+  .step::before { color: #e09a89; }
+  .about-card { border-color: rgba(238,229,214,.18); background: linear-gradient(115deg,rgba(164,60,49,.14),rgba(38,32,27,.86) 62%); box-shadow: 5px 6px 0 rgba(0,0,0,.18); }
+  .open-source-mark { border-color: rgba(198,116,99,.38); color: #e09a89; background: rgba(164,60,49,.1); }
+  .download-card { border-color: rgba(238,229,214,.2); background: #211b18; box-shadow: 6px 7px 0 rgba(0,0,0,.24); }
+  .download-card .button-primary { color: #fff4e9; background: #a83f34; }
+  .footer { border-top-color: rgba(238,229,214,.14); color: #b9ad9d; }
+  .footer a { color: #ded3c2; }
+  .app-shot { border-color: #332c26; }
+  @media (max-width: 680px) { .nav { background: rgba(23,20,17,.98); border-bottom-color: var(--line); } .download-card { box-shadow: 4px 5px 0 rgba(0,0,0,.22); } }
+
   .art.screen-gallery-art { min-height: 540px; }
   .screen-gallery { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; width: 100%; }
   .app-shot { position: relative; flex: 0 0 auto; width: min(220px, 42vw); margin: 0; overflow: hidden; border: 2px solid #26221c; border-radius: 18px; background: #08090c; box-shadow: 7px 8px 0 rgba(49,39,27,.2); line-height: 0; }
