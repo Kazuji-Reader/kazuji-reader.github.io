@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15151b">
+  <meta name="theme-color" content="#eee5d1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
   <title>Abrir mangá no Kazuji</title>
   <style>
     :root { color-scheme: dark; font: 16px/1.6 system-ui, sans-serif; background: #15151b; color: #f6f3fa; }
@@ -14,10 +16,25 @@
     .button { display: inline-block; margin: 1rem .5rem 0 0; padding: .7rem 1rem; border-radius: .75rem; background: #c8a5ff; color: #20172b; font-weight: 650; text-decoration: none; }
     .secondary { background: #34313c; color: #f6f3fa; }
   </style>
+<style>
+  :root { color-scheme: light; --paper: #f7efdf; --ink: #24211c; --muted: #655f53; --seal: #a43c31; font: 16px/1.7 Georgia, "Noto Serif JP", "Yu Mincho", serif; }
+  * { box-sizing: border-box; }
+  body { color: var(--ink); padding: 24px; background-color: #eee5d1; background-image: radial-gradient(rgba(71,56,34,.09) .7px, transparent .8px), repeating-linear-gradient(0deg, transparent 0 8px, rgba(88,66,38,.035) 8px 9px); background-size: 7px 7px, auto; }
+  main { position: relative; width: min(34rem, 100%); padding: clamp(1.5rem, 6vw, 3rem); border: 1px solid rgba(43,36,27,.24); background: rgba(247,239,223,.94); box-shadow: 7px 8px 0 rgba(49,39,27,.13); }
+  main::after { position: absolute; top: 20px; right: 20px; width: 42px; height: 42px; display: grid; place-items: center; content: "和"; border: 1px solid var(--seal); color: var(--seal); font-size: .8rem; transform: rotate(8deg); }
+  .brand { display: flex; align-items: center; gap: 10px; margin: 0 4rem 2rem 0; color: var(--muted); font-weight: 700; letter-spacing: .02em; }
+  .brand-mark { width: 34px; height: 34px; object-fit: cover; border: 1px solid rgba(36,33,28,.24); background: #eee5d1; }
+  h1 { margin: 0 0 .5rem; color: var(--ink); font-size: clamp(2rem, 8vw, 3rem); line-height: 1.1; letter-spacing: -.035em; }
+  p { color: var(--muted); overflow-wrap: anywhere; }
+  #source { color: #796f60; font-size: .9rem; }
+  .button { border-radius: 2px; background: var(--seal); color: #fff8ec; box-shadow: 3px 4px 0 rgba(64,31,26,.18); }
+  .secondary { border: 1px solid rgba(43,36,27,.24); background: transparent; color: var(--ink); box-shadow: none; }
+  a:focus-visible { outline: 3px solid var(--seal); outline-offset: 4px; }
+</style>
 </head>
 <body>
   <main>
-    <p>Kazuji Reader</p>
+    <p class="brand"><img class="brand-mark" src="/favicon.svg" alt="">Kazuji Reader</p>
     <h1 id="title">Abrir este mangá</h1>
     <p id="source"></p>
     <p>Se o app não abrir automaticamente, use o botão abaixo.</p>
